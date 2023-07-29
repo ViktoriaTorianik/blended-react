@@ -11,9 +11,48 @@ import {
   UserBox,
   UserInfo,
   UserName,
-  Date,
+  DateEl,
 } from './BlogCard.styled';
+import { formatDistanceToNow } from 'date-fns';
+import PropTypes from 'prop-types';
+export const BlogCard = ({
+  poster,
+  tag,
+  title,
+  description,
+  name,
+  avatar,
+  postedAt,
+}) => {
+  return (
+    <Card>
+      <CardHeader>
+        <CardPoster src={poster} alt={tag} />
+      </CardHeader>
+      <CardBody>
+        <Tag>{tag}</Tag>
+        <CardTitle>{title}</CardTitle>
+        <CardText>{description}</CardText>
+      </CardBody>
+      <CardFooter>
+        <UserBox>
+          <Avatar src={avatar} />
+          <UserInfo>
+            <UserName>{name}</UserName>
+            <DateEl>{formatDistanceToNow(new Date(postedAt))}</DateEl>
+          </UserInfo>
+        </UserBox>
+      </CardFooter>
+    </Card>
+  );
+};
 
-export const BlogCard = () => {
-  return <div>BlogCard</div>;
+BlogCard.propTypes = {
+  poster: PropTypes.string.isRequired,
+  tag: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+  postedAt: PropTypes.string.isRequired,
 };
