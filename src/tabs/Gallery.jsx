@@ -1,7 +1,15 @@
 import { Component } from 'react';
 
 import * as ImageService from 'service/image-service';
-import { Button, SearchForm, Grid, GridItem, Text, CardItem } from 'components';
+import {
+  Button,
+  SearchForm,
+  Grid,
+  GridItem,
+  Text,
+  CardItem,
+  Modal,
+} from 'components';
 
 export class Gallery extends Component {
   state = {
@@ -10,6 +18,9 @@ export class Gallery extends Component {
     photos: [],
     lastPage: true,
     isLoading: false,
+    src: null,
+    alt: null,
+    showModal: false,
   };
   getNormalayzedImages = array =>
     array.map(({ id, avg_color, alt, src }) => ({ id, avg_color, alt, src }));
@@ -44,8 +55,11 @@ export class Gallery extends Component {
   handleClick = evt => {
     this.setState(prev => ({ page: prev.page + 1 }));
   };
+  handleImageClick = (src, alt) => {
+    this.setState({ src, alt, showModal: true });
+  };
   render() {
-    const { photos, lastPage, isLoading } = this.state;
+    const { photos, lastPage, isLoading, src, alt, showModal } = this.state;
     return (
       <>
         <SearchForm onSubmit={this.onSubmit} />
@@ -59,7 +73,11 @@ export class Gallery extends Component {
               return (
                 <GridItem key={id}>
                   <CardItem color={avg_color}>
-                    <img src={src.medium} alt={alt} />
+                    <img
+                      onClick={() => this.handleImageClick(src.large, alt)}
+                      src={src.medium}
+                      alt={alt}
+                    />
                   </CardItem>
                 </GridItem>
               );
@@ -67,6 +85,7 @@ export class Gallery extends Component {
           </Grid>
         )}
         {!lastPage && <Button onClick={this.handleClick}>Load more</Button>}
+        {showModal && <Modal src={src} alt={alt} />}
       </>
     );
   }
