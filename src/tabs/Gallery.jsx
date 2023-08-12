@@ -16,6 +16,7 @@ export class Gallery extends Component {
     ) {
       return;
     }
+    // bbbb
     const { photos, total_results } = await ImageService.getImages({
       page: this.state.page,
       query: this.state.query,
