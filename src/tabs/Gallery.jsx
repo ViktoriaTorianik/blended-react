@@ -24,6 +24,7 @@ export class Gallery extends Component {
   };
   getNormalayzedImages = array =>
     array.map(({ id, avg_color, alt, src }) => ({ id, avg_color, alt, src }));
+  handleModalClose = () => this.setState({ showModal: false });
   async componentDidUpdate(prevProp, prevState) {
     if (
       (prevState.query === this.state.query &&
@@ -85,7 +86,9 @@ export class Gallery extends Component {
           </Grid>
         )}
         {!lastPage && <Button onClick={this.handleClick}>Load more</Button>}
-        {showModal && <Modal src={src} alt={alt} />}
+        {showModal && (
+          <Modal src={src} alt={alt} handleModalClose={this.handleModalClose} />
+        )}
       </>
     );
   }
